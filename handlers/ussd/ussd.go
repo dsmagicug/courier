@@ -125,7 +125,7 @@ func (h *handler) receiveStatus(ctx context.Context, channel courier.Channel, wr
 }
 
 type WantsResponseMetadata struct {
-	wantsResponse bool `json:"wants_response"`
+	WantsResponse bool `json:"wants_response"`
 }
 
 func (h *handler) SendMsg(ctx context.Context, msg courier.Msg) (courier.MsgStatus, error) {
@@ -141,7 +141,7 @@ func (h *handler) SendMsg(ctx context.Context, msg courier.Msg) (courier.MsgStat
 
 	var resp = response{
 		resp:         handlers.GetTextAndAttachments(msg) ,
-		wantResponse: m.wantsResponse,
+		wantResponse: m.WantsResponse,
 	}
 
 	form := &moForm{
