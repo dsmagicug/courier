@@ -30,6 +30,19 @@ func WriteMsgsAndResponse(ctx context.Context, h ResponseWriter, msgs []courier.
 	return events, h.WriteMsgSuccessResponse(ctx, w, r, msgs)
 }
 
+func WriteMsgs(ctx context.Context, h ResponseWriter, msgs []courier.Msg) ([]courier.Event, error) {
+	events := make([]courier.Event, len(msgs), len(msgs))
+	for i, m := range msgs {
+		err := h.Backend().WriteMsg(ctx, m)
+		if err != nil {
+			return nil, err
+		}
+		events[i] = m
+	}
+
+	return events, nil
+}
+
 // WriteMsgStatusAndResponse write the passed in status to our backend
 func WriteMsgStatusAndResponse(ctx context.Context, h ResponseWriter, channel courier.Channel, status courier.MsgStatus, w http.ResponseWriter, r *http.Request) ([]courier.Event, error) {
 	err := h.Backend().WriteMsgStatus(ctx, status)

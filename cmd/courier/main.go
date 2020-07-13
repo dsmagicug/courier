@@ -63,6 +63,8 @@ import (
 	_ "github.com/nyaruka/courier/handlers/yo"
 	_ "github.com/nyaruka/courier/handlers/zenvia"
 
+	_ "github.com/nyaruka/courier/handlers/ussd"
+
 	// load available backends
 	_ "github.com/nyaruka/courier/backends/rapidpro"
 )
