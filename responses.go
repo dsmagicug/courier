@@ -75,7 +75,11 @@ func WriteDataResponse(ctx context.Context, w http.ResponseWriter, statusCode in
 }
 
 func WriteTextResponse(ctx context.Context, w http.ResponseWriter, statusCode int, message string) error {
-	return writeTextPlainResponse(ctx,w,statusCode,message)
+	w.Header().Set("Content-Type", "text/plain")
+	w.WriteHeader(statusCode)
+	_, err := w.Write([]byte(message))
+
+	return err
 }
 
 // MsgReceiveData is our response payload for a received message
@@ -177,12 +181,4 @@ func writeJSONResponse(ctx context.Context, w http.ResponseWriter, statusCode in
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 	return json.NewEncoder(w).Encode(response)
-}
-
-func writeTextPlainResponse(ctx context.Context, w http.ResponseWriter, statusCode int, text string ) error {
-	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(statusCode)
-	_,err := w.Write([]byte(text))
-
-	return err
 }
